@@ -1,4 +1,4 @@
-# ots-prijava
+# USERSTORY.md
 
 Delovni repozitorij za delavnico **USERSTORY.md — ena zahteva, dva bralca** (OTS 2026).
 
