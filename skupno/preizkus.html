@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<title>OTS prijava — preizkus sprejemnih primerov</title>
+<style>
+  :root { --navy:#1F3864; --grey:#595959; --line:#d0d0d0; }
+  * { box-sizing: border-box; }
+  body { font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+         margin: 0; padding: 32px; color:#222; background:#fafafa; }
+  .wrap { max-width: 1100px; margin: 0 auto; }
+  h1 { color: var(--navy); font-size: 22px; margin: 0 0 4px; }
+  .sub { color: var(--grey); font-size: 14px; margin-bottom: 24px; }
+  label { display:block; font-weight:600; font-size:14px; margin-bottom:6px; }
+  textarea { width:100%; height:220px; font-family: Consolas, Menlo, monospace;
+             font-size:13px; padding:12px; border:1px solid var(--line);
+             border-radius:6px; background:#fff; resize:vertical; }
+  .row { display:flex; gap:12px; align-items:center; margin:16px 0 24px; }
+  button { background: var(--navy); color:#fff; border:0; border-radius:6px;
+           padding:11px 22px; font-size:15px; font-weight:600; cursor:pointer; }
+  button:hover { background:#2a4a80; }
+  button.sec { background:#fff; color:var(--navy); border:1px solid var(--navy); }
+  table { width:100%; border-collapse:collapse; background:#fff;
+          border:1px solid var(--line); font-size:13px; }
+  th { background: var(--navy); color:#fff; text-align:left;
+       padding:9px 10px; font-weight:600; }
+  td { padding:9px 10px; border-top:1px solid var(--line); vertical-align:top; }
+  td.n { width:32px; color:var(--grey); }
+  td.res { font-weight:700; font-size:15px; white-space:nowrap; }
+  tr.err td.res { color:#c00000; }
+  .mono { font-family: Consolas, Menlo, monospace; font-size:12px; color:var(--grey); }
+  .hint { background:#eef3fb; border-left:4px solid var(--navy);
+          padding:12px 16px; font-size:13px; margin-bottom:20px; }
+  .empty { color:#999; font-style:italic; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Preizkus sprejemnih primerov</h1>
+  <div class="sub">OTS prijava — 7 primerov, ena poteza</div>
+
+  <div class="hint">
+    Prilepite <strong>samo funkcijo <span class="mono">izracunajKotizacijo</span></strong>, ki jo je
+    generiral agent. Brez <span class="mono">export</span>, brez uvozov. Nato pritisnite
+    <strong>Poženi</strong> — vseh sedem primerov se izvede naenkrat.
+  </div>
+
+  <label for="src">Vsebina <span class="mono">cena.js</span></label>
+  <textarea id="src" spellcheck="false" placeholder="function izracunajKotizacijo(prijava) { ... }"></textarea>
+
+  <div class="row">
+    <button id="run">Poženi vseh 7 primerov</button>
+    <button id="demo" class="sec">Vstavi vzorčno funkcijo</button>
+  </div>
+
+  <table id="out">
+    <thead>
+      <tr>
+        <th class="n">#</th><th>Primer</th><th>Vhod</th>
+        <th>Rezultat</th><th>Utemeljitev</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="5" class="empty">Rezultatov še ni.</td></tr>
+    </tbody>
+  </table>
+
+</div>
+
+<script>
+const PRIMERI = [
+  { n:1, opis:"osnovni primer",
+    p:{ oddano_ob:"2026-07-15T10:00:00+02:00", racun_izdan_ob:"2026-07-16",
+        placano_ob:"2026-07-20", status:"redni", stevilo_oseb:1 } },
+  { n:2, opis:"meja; račun in plačilo po roku",
+    p:{ oddano_ob:"2026-07-31T23:47:00+02:00", racun_izdan_ob:"2026-08-01",
+        placano_ob:"2026-08-04", status:"redni", stevilo_oseb:1 } },
+  { n:3, opis:"zadnja sekunda roka",
+    p:{ oddano_ob:"2026-07-31T23:59:59+02:00", racun_izdan_ob:"2026-08-03",
+        placano_ob:"2026-08-10", status:"redni", stevilo_oseb:1 } },
+  { n:4, opis:"prva sekunda po roku",
+    p:{ oddano_ob:"2026-08-01T00:00:01+02:00", racun_izdan_ob:"2026-08-03",
+        placano_ob:"2026-08-10", status:"redni", stevilo_oseb:1 } },
+  { n:5, opis:"še neplačana prijava",
+    p:{ oddano_ob:"2026-07-20T09:00:00+02:00", racun_izdan_ob:"2026-07-22",
+        placano_ob:null, status:"redni", stevilo_oseb:1 } },
+  { n:6, opis:"po preklicu — nova prijava",
+    p:{ oddano_ob:"2026-08-03T09:00:00+02:00", racun_izdan_ob:"2026-08-05",
+        placano_ob:"2026-08-20", status:"redni", stevilo_oseb:1 } },
+  { n:7, opis:"študent",
+    p:{ oddano_ob:"2026-07-20T14:00:00+02:00", racun_izdan_ob:"2026-07-22",
+        placano_ob:"2026-08-01", status:"student", stevilo_oseb:1 } },
+];
+
+function esc(s){ return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+function vhod(p){
+  return "oddano_ob: " + p.oddano_ob
+       + "<br>placano_ob: " + (p.placano_ob === null ? "(prazno)" : p.placano_ob)
+       + "<br>status: " + p.status;
+}
+
+function naloziFunkcijo(koda){
+  // odstrani export/import, da deluje tudi, če jih je model dodal
+  const c = koda.replace(/^\s*export\s+/gm, "").replace(/^\s*import[^\n]*$/gm, "");
+  const f = new Function(c + "\n; return typeof izracunajKotizacijo === 'function' ? izracunajKotizacijo : null;");
+  const fn = f();
+  if (!fn) throw new Error("Funkcije izracunajKotizacijo ni bilo mogoče najti.");
+  return fn;
+}
+
+function pozeni(){
+  const tbody = document.querySelector("#out tbody");
+  const koda = document.getElementById("src").value.trim();
+  if (!koda){
+    tbody.innerHTML = '<tr><td colspan="5" class="empty">Najprej prilepite funkcijo.</td></tr>';
+    return;
+  }
+  let fn;
+  try { fn = naloziFunkcijo(koda); }
+  catch(e){
+    tbody.innerHTML = '<tr class="err"><td colspan="5" class="res">NAPAKA PRI NALAGANJU: '
+      + esc(e.message) + '</td></tr>';
+    return;
+  }
+  tbody.innerHTML = PRIMERI.map(t => {
+    let rez, razlog, err = false;
+    try {
+      const r = fn(structuredClone(t.p));
+      if (r === undefined || r === null) { rez = "vrnil nič"; razlog = ""; err = true; }
+      else if (typeof r === "object") {
+        rez = (r.cena === undefined ? "?" : r.cena) + " " + (r.valuta || "");
+        razlog = r.razlog || r.pojasnilo || "";
+        if (r.cena === undefined || Number.isNaN(r.cena)) err = true;
+      } else {
+        rez = String(r); razlog = "(vrnil golo vrednost, ne objekta)";
+        if (Number.isNaN(r)) err = true;
+      }
+    } catch(e){ rez = "NAPAKA"; razlog = e.message; err = true; }
+    return '<tr class="' + (err ? "err" : "") + '">'
+      + '<td class="n">' + t.n + '</td>'
+      + '<td>' + esc(t.opis) + '</td>'
+      + '<td class="mono">' + vhod(t.p) + '</td>'
+      + '<td class="res">' + esc(rez) + '</td>'
+      + '<td>' + esc(razlog) + '</td></tr>';
+  }).join("");
+}
+
+const VZOREC = `function izracunajKotizacijo(prijava) {
+  const ROK = new Date("2026-07-31T23:59:59+02:00");
+  const oddano = new Date(prijava.oddano_ob);
+  const zgodaj = oddano <= ROK;
+  if (prijava.status === "student") {
+    return { cena: 120, valuta: "EUR", razlog: "Studentska cena." };
+  }
+  return zgodaj
+    ? { cena: 240, valuta: "EUR", razlog: "Prijava oddana pred rokom." }
+    : { cena: 300, valuta: "EUR", razlog: "Prijava oddana po roku." };
+}`;
+
+document.getElementById("run").addEventListener("click", pozeni);
+document.getElementById("demo").addEventListener("click", () => {
+  document.getElementById("src").value = VZOREC;
+  pozeni();
+});
+</script>
+</body>
+</html>
