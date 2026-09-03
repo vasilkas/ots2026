@@ -36,11 +36,16 @@ ots-prijava/
 │   ├── preizkus.html              preizkusno okolje generiranih skript
 │   └── cena.js                    vmesnik funkcije, ki jo generira agent
 │
+├── kontrolne tocke/               primer ustvarjene vsebine za vaje v primeru težav
+│   ├── 2-naloga.md                
+│   ├── 3-AGENTS.md                
+│   ├── 3-izracunajKotizacijo.js   
+│   └── 4-USERSTORY.md 
+│
 ├── naloga-1/   obrazec.md
 ├── naloga-2/   NAVODILA.md · poziv.md · obrazec.md
 ├── naloga-3/   NAVODILA.md · poziv-1-agents.md · poziv-2-koda.md · obrazec.md
-├── naloga-4/   NAVODILA.md · USERSTORY.md · poziv-1-osnutek.md · poziv-2-koda.md · obrazec.md
-└── oddaje/   
+└── naloga-4/   NAVODILA.md · USERSTORY.md · poziv-1-osnutek.md · poziv-2-koda.md · obrazec.md                        
 
 ```
 
