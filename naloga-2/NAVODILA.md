@@ -20,7 +20,7 @@ V nalogi 1 ste zapisali **napoved** kaj bi po vašem mnenju moral razjasniti age
 
 ## Koraki
 
-**1.** Pred sabo imejte obrazec iz naloge 1, predvsem odgovor na vprašanje 2.
+**1.** Pred sabo imejte obrazec iz naloge 1, predvsem odgovor na vašo stavo.
 
 **2.** Odprite klepetalno okno. Prilepite poziv iz [`poziv.md`](poziv.md), za njim pa celotno vsebino `US1.md`.
 
@@ -30,12 +30,3 @@ V nalogi 1 ste zapisali **napoved** kaj bi po vašem mnenju moral razjasniti age
 
 ---
 
-## Zakaj poziv dobesedno
-
-Če vsaka skupina napiše svojega, bomo čez sedem minut primerjali kakovost promptov, ne kakovosti zahteve.
-
----
-
-## Kaj bomo vprašali
-
-Kje je bil agent hitrejši od vas, in kje ni imel možnosti vedeti.
