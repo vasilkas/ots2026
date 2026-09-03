@@ -25,6 +25,7 @@ Vsaka naloga ima svojo mapo. **Odprite mapo naloge, ki jo trenutno delate, in pr
 ots-prijava/
 ├── README.md                      ta datoteka
 ├── AGENTS.md                      konvencije projekta — razdelek je PRAZEN
+├── ODDAJA.md
 │
 ├── skupno/                        gradiva, ki jih uporabljamo skozi vso delavnico
 │   ├── US1.md                     slabo definirana/strukturirana zahteva
@@ -35,10 +36,12 @@ ots-prijava/
 │   ├── preizkus.html              preizkusno okolje generiranih skript
 │   └── cena.js                    vmesnik funkcije, ki jo generira agent
 │
-├── naloga-1/   NAVODILA.md · obrazec.md
+├── naloga-1/   obrazec.md
 ├── naloga-2/   NAVODILA.md · poziv.md · obrazec.md
 ├── naloga-3/   NAVODILA.md · poziv-1-agents.md · poziv-2-koda.md · obrazec.md
-└── naloga-4/   NAVODILA.md · USERSTORY.md · poziv-1-osnutek.md · poziv-2-koda.md · obrazec.md
+├── naloga-4/   NAVODILA.md · USERSTORY.md · poziv-1-osnutek.md · poziv-2-koda.md · obrazec.md
+└── oddaje/   
+
 ```
 
 ---
