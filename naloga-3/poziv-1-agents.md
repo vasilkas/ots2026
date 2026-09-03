@@ -1,7 +1,6 @@
 # Korak 1 — poziv: iz zahteve v konvencije projekta
 
-Uporabite **dobesedno**. Na označeno mesto prilepite celotno vsebino [`../skupno/US2.md`](../skupno/US2.md).
-
+Uporabite **dobesedno**. 
 ```
 Pripravljas projekt za razvoj z agentom.
 
@@ -17,20 +16,26 @@ AGENTS.md mora vsebovati vsaj:
 Bodi konkreten. Kjer je potrebna vrednost, jo doloci - ne pisi
 "odvisno od projekta".
 
-ZAHTEVA, KI JE NA VOLJO
+Vsako trditev, ki NE izhaja neposredno iz spodnje zahteve
+in si jo dolocil sam, oznaci z [PREDPOSTAVKA].
+Ne izpuscaj takih trditev in jih ne skrivaj v besedilu.
 
-## Uporabniška zgodba
+=== ZAHTEVA ===
 
-Kot udeleženec konference se želim prijaviti po nižji ceni pred iztekom roka za zgodnjo prijavo, da privarčujem pri kotizaciji.
+US2 - Zgodnja prijava
 
-## Sprejemni kriteriji
+Kot udelezenec konference se zelim prijaviti po nizji ceni pred
+iztekom roka za zgodnjo prijavo, da privarcujem pri kotizaciji.
 
-- Udeleženec, ki se prijavi do 31. 7. 2026, plača znižano kotizacijo 240 € namesto redne 300 €.
-- Po tem datumu sistem prikaže redno ceno.
-- Znižana cena mora biti razvidna na računu
+Sprejemni kriteriji:
+- Udelezenec, ki se prijavi do 31. 7. 2026, placa znizano kotizacijo
+  240 EUR namesto redne 300 EUR.
+- Po tem datumu sistem prikaze redno ceno.
+- Znizana cena mora biti razvidna na racunu.
+
+=== KONEC ZAHTEVE ===
 
 Vrni samo vsebino datoteke AGENTS.md, v enem bloku.
-```
 
 ---
 
@@ -39,9 +44,11 @@ Vrni samo vsebino datoteke AGENTS.md, v enem bloku.
 Preberite ga in označite vsako trditev, ki je v US2 ni.
 
 ```
-Skupno število trditev:              ______
+Skupno število trditev:                ______
 
-Od tega jih iz zahteve NE izhaja:    ______
+Označenih s [PREDPOSTAVKA]:            ______
+
+Neoznačenih, a vseeno izmišljenih:     ______
 ```
 
 **Izpis shranite** — je vhod za korak 2.

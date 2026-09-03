@@ -26,7 +26,9 @@ US2  →  KORAK 1  →  AGENTS.md  →  KORAK 2  →  cena.js  →  preizkus.htm
 
 Poženite [`poziv-1-agents.md`](poziv-1-agents.md). Dobili boste `AGENTS.md` — konvencije, ki naj veljajo za **cel projekt**.
 
-Nato **preberite izpis in označite vsako trditev, ki je v US2 ni.**
+Poziv od agenta zahteva, da vsako izmišljeno trditev sam označi z [PREDPOSTAVKA].
+
+Preštejte oznake — nato poiščite še tiste, ki jih ni označil.
 
 > Ena zahteva ne vsebuje konvencij celega projekta. Agent si jih je torej **moral** izmisliti.
 > Zdaj so te izmišljotine vsaj zapisane v datoteki — namesto skrite v kodi.
