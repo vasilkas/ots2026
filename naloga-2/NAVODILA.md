@@ -14,7 +14,7 @@
 
 ## Kaj boste naredili
 
-V nalogi 1 ste zapisali **napoved** kaj bi po vašem mnenju moral razjasniti agent. Zdaj jo preverite.
+V nalogi 1 ste zapisali **napoved**, koliko naših praznin bo našel AI, ali bo AI našel kaj DODATNIH praznin in koliko od skupnih praznim bo AI sam zapolninl. Zdaj jo preverite.
 
 ---
 
